@@ -31,4 +31,5 @@ stages:
           containerAppEnvironment: 'ansalemo-caenv'
           runtimeStack: 'php:8.2'
           targetPort: '8080'
+          ingress: 'external'
           location: 'eastus'
