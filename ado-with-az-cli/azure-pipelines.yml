@@ -1,0 +1,54 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  - master
+  
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '00000000-0000-0000-0000-000000000000'
+  imageRepository: 'someimage'
+  containerRegistry: 'someacr.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+        
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: '00000000-0000-0000-0000-000000000000'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az containerapp up -n some-azure-devops -g some-rg --image $(containerRegistry)/$(imageRepository):$(tag) --ingress external --target-port 80 --environment some-acaenv --registry-username "someacrusername" --registry-password "somepass"'

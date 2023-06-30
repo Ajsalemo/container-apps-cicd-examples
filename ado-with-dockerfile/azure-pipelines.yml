@@ -1,3 +1,8 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
 trigger:
   - master
   
@@ -16,14 +21,14 @@ stages:
       - task: AzureContainerApps@1
         inputs:
           appSourcePath: '$(System.DefaultWorkingDirectory)'
-          azureSubscription: 'somesub-or-serviceconnection'
+          azureSubscription: 'somesubscription-or-service-connection'
           acrName: 'someacr'
-          acrUsername: 'someacracr'
-          acrPassword: 'someacrpassword'
-          imageToBuild: 'someoacr.azurecr.io/some-aca-ado:latest'
+          acrUsername: 'someacr'
+          acrPassword: 'someacrpass'
+          imageToBuild: 'someacr.azurecr.io/some-aca-ado-php:v2'
           containerAppName: 'some-azure-devops'
           resourceGroup: 'some-rg'
           containerAppEnvironment: 'some-caenv'
-          runtimeStack: 'node:16'
-          targetPort: '3000'
-          location: 'eastus'
+          targetPort: '80'
+          ingress: 'external'
+          location: 'eastus'  
