@@ -20,16 +20,14 @@ stages:
     steps:
       - task: AzureContainerApps@1
         inputs:
-          appSourcePath: '$(System.DefaultWorkingDirectory)'
           azureSubscription: 'somesubscription'
           acrName: 'someacr'
           acrUsername: 'someacr'
           acrPassword: 'someacrpassword'
-          imageToBuild: 'someacr.azurecr.io/some-aca-ado:latest'
+          imageToBuild: 'someacr.azurecr.io/some-aca-ado-node:latest'
           containerAppName: 'some-azure-devops'
           resourceGroup: 'some-rg'
           containerAppEnvironment: 'some-caenv'
-          runtimeStack: 'node:16'
           targetPort: '3000'
           ingress: 'external'
           location: 'eastus'
