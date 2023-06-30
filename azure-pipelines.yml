@@ -29,6 +29,6 @@ stages:
           containerAppName: 'ansalemo-azure-devops'
           resourceGroup: 'ansalemo-rg'
           containerAppEnvironment: 'ansalemo-caenv'
-          targetPort: '8080'
+          targetPort: '80'
           ingress: 'external'
           location: 'eastus'  
