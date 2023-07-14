@@ -1,0 +1,37 @@
+name: Trigger auto deployment for some-app
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/someapp-AutoDeployTrigger-00000000-0000-0000-0000-000000000000.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with: 
+          registryUrl: someacr.azurecr.io
+          registryUsername: ${{ secrets.ACR_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ACR_REGISTRY_PASSWORD }}
+          containerAppName: some-app
+          resourceGroup: some-rg
+          imageToDeploy: someacr.azurecr.io/some-app:some-tag
