@@ -21,7 +21,8 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          appSourcePath: ${{ github.workspace }}/gh-actions-from-source
+          appSourcePath: gh-actions-from-source
+          # This can just be the name of your acr - it doesnt need to be the FQDN of someacr.azurecr.io
           acrName: ${{ secrets.AZURE_CONTAINER_REGISTRY_URL }}
           acrUsername: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
           acrPassword: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
@@ -29,3 +30,4 @@ jobs:
           resourceGroup: ansalemo-rg
           runtimeStack: 'node:16'
           targetPort: 3000
+
