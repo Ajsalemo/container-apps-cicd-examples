@@ -27,6 +27,7 @@ jobs:
           acrUsername: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
           acrPassword: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
           containerAppName: ansalemo-node-cicd-ppt
+          containerAppEnvironment: ansalemo-acaenv
           resourceGroup: ansalemo-rg
           runtimeStack: 'node:16'
           targetPort: 3000
